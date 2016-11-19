@@ -7,27 +7,36 @@
  * another matrix to be multiplied.
  */
 
-void printMatrix(int *mptr, int rows, int cols) {
+/* Define a matrix structure to make passing arguments to functions more concise */
+typedef struct {
+	int *mptr;
+	int rows;
+	int cols;
+} matrix;
+
+/* This function displays a matrix */
+void printMatrix(matrix *m) {
 	int i, j;
-	for (i = 0; i < rows; i++) {
-		for (j = 0; j < cols; j++) {
-			printf("%d\t", *mptr);
-			mptr++;
+	for (i = 0; i < m->rows; i++) {
+		for (j = 0; j < m->cols; j++) {
+			printf("%d\t", *(m->mptr));
+			(m->mptr)++;
 		} /* End for loop */
 		printf("\n");
 	} /* End for loop */
 } /* End printMatrix */
 
-void setMatrix(int *mptr, int rows, int cols) {
+/* This function populates a matrix with values inputted by the user */
+void setMatrix(matrix *m) {
 	int i;
 	int status;
-	for (i = 0; i < rows*cols; i++) {
-		status = scanf("%d", mptr);
+	for (i = 0; i < (m->rows)*(m->cols); i++) {
+		status = scanf("%d", m->mptr);
 		if (status == 0) {
 			fprintf(stderr, "Invalid Input\n");
 			exit(-1);
 		} /* End conditional */
-		mptr++;
+		(m->mptr)++;
 	} /* End for loop */
 } /* End setMatrix */
 
@@ -50,17 +59,21 @@ int main() {
 	/* Get the matrix elements and check that they are valid */
 	int matrix1[row1][col1];
 	int matrix2[row2][col2];
-	int *ptr = &matrix1[0][0];
+	int *ptr1 = &matrix1[0][0];
+	matrix m1 = {ptr1, row1, col1};
 	printf("Input matrix 1 elements separated by spaces (there should be %d elements): ", row1*col1);
-	setMatrix(ptr, row1, col1);
-	ptr = &matrix2[0][0];
+	setMatrix(&m1);
+	int *ptr2 = &matrix2[0][0];
+	matrix m2 = {ptr2, row2, col2};
 	printf("Input matrix 2 elements separated by spaces (there should be %d elements): ", row2*col2);
-	setMatrix(ptr, row2, col2);
+	setMatrix(&m2);
 
 	/* Print the matrices */
+	m1.mptr = &matrix1[0][0];
+	m2.mptr = &matrix2[0][0];
 	printf("\nMatrix 1:\n");
-	printMatrix(&matrix1[0][0], row1, col1);
+	printMatrix(&m1);
 	printf("\nMatrix 2:\n");
-	printMatrix(&matrix2[0][0], row2, col2);
+	printMatrix(&m2);
 	return 0;
 } /* End main */
