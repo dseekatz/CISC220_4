@@ -18,13 +18,25 @@ void printMatrix(int *mptr, int rows, int cols) {
 	} /* End for loop */
 } /* End printMatrix */
 
+void setMatrix(int *mptr, int rows, int cols) {
+	int i;
+	int status;
+	for (i = 0; i < rows*cols; i++) {
+		status = scanf("%d", mptr);
+		if (status == 0) {
+			fprintf(stderr, "Invalid Input\n");
+			exit(-1);
+		} /* End conditional */
+		mptr++;
+	} /* End for loop */
+} /* End setMatrix */
+
 int main() {
 	/* Get the dimensions of the matrices */
 	printf("Insert matrix 1 dimensions separated by a space: ");
 	int row1;
 	int col1;
 	scanf("%d %d",&row1,&col1);
-	printf("The number of rows is %d and number of columns is %d\n",row1,col1);
 	printf("Insert matrix 2 dimensions separated by a space: ");
 	int row2;
 	int col2;
@@ -39,28 +51,11 @@ int main() {
 	int matrix1[row1][col1];
 	int matrix2[row2][col2];
 	int *ptr = &matrix1[0][0];
-	int i;
-	int status;
 	printf("Input matrix 1 elements separated by spaces (there should be %d elements): ", row1*col1);
-	for (i = 0; i < row1*col1; i++) {
-		status = scanf("%d", ptr);
-		if (status == 0) {
-			fprintf(stderr, "Invalid Input\n");
-			exit(-1);
-		} /* End conditional */
-		ptr++;
-	} /* End for loop */
+	setMatrix(ptr, row1, col1);
 	ptr = &matrix2[0][0];
 	printf("Input matrix 2 elements separated by spaces (there should be %d elements): ", row2*col2);
-	for (i = 0; i < row2*col2; i++) {
-		status = scanf("%d", ptr);
-		if (status == 0) {
-			fprintf(stderr, "Invalid Input\n");
-			exit(-1);
-		} /* End conditional */
-		ptr++;
-	} /* End for loop */
-	
+	setMatrix(ptr, row2, col2);
 
 	/* Print the matrices */
 	printf("\nMatrix 1:\n");
