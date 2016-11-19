@@ -40,12 +40,15 @@ void setMatrix(matrix *m) {
 	} /* End for loop */
 } /* End setMatrix */
 
+/* This function multiplies two matrices and stores the result in a third matrix (provided as a parameter) */
 void multiply(matrix *m1, matrix *m2, matrix *m3) {
 	int i, j, k;
 	int sum = 0;
 	
 	/* This part seems silly, but I don't know how to avoid it since I can't pass a 2D array of
-	 * unspecified size as a parameter.
+	 * unspecified size as a parameter.  In this block of code I create two new arrays
+	 * that are exact copies of the arrays pointed at by the m1 and m2 matrix structures. I do
+	 * this so that the elemnts of those arrays are easy to access when doing the actual multiplication.
 	 */
 	int matrix1[m1->rows][m1->cols];
 	for (i = 0; i < m1->rows; i++) {
