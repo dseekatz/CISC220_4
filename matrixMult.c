@@ -40,6 +40,52 @@ void setMatrix(matrix *m) {
 	} /* End for loop */
 } /* End setMatrix */
 
+/* This function multiplies two matrices and stores the result in a third matrix (provided as a parameter) */
+void multiply(matrix *m1, matrix *m2, matrix *m3) {
+	int i, j, k;
+	int sum = 0;
+	
+	/* This part seems silly, but I don't know how to avoid it since I can't pass a 2D array of
+	 * unspecified size as a parameter.  In this block of code I create two new arrays
+	 * that are exact copies of the arrays pointed at by the m1 and m2 matrix structures. I do
+	 * this so that the elemnts of those arrays are easy to access when doing the actual multiplication.
+	 */
+	int matrix1[m1->rows][m1->cols];
+	for (i = 0; i < m1->rows; i++) {
+		for (j = 0; j < m1->cols; j++) {
+			matrix1[i][j] = *(m1->mptr);
+			(m1->mptr)++;
+		} /* End for loop */
+	} /* End for loop */
+	int matrix2[m2->rows][m2->cols];
+	for (i = 0; i < m2->rows; i++) {
+		for (j = 0; j < m2->cols; j++) {
+			matrix2[i][j] = *(m2->mptr);
+			(m2->mptr)++;
+		} /* End for loop */
+	} /* End for loop */
+
+	/* Back to regularly scheduled matrix multiplication */
+	for (i = 0; i < m1->rows; i++) {
+        	for (j = 0; j < m2->cols; j++) {
+			printf("Element [%d,%d] = ", i+1, j+1);
+        		for (k = 0; k < m2->rows; k++) {
+				if (k == 0) {
+					printf("%d*%d ", matrix1[i][k], matrix2[k][j]);
+				} 
+				else {
+					printf("+ %d*%d ", matrix1[i][k], matrix2[k][j]);
+				} /* End conditional */
+				sum = sum + matrix1[i][k]*matrix2[k][j];
+			} /* End for loop */
+			printf("= %d\n", sum);
+			*(m3->mptr) = sum;
+			(m3->mptr)++;
+			sum = 0;
+		} /* End for loop */
+	} /* End for loop */
+} /* End multiply */
+
 int main() {
 	/* Get the dimensions of the matrices */
 	printf("Insert matrix 1 dimensions separated by a space: ");
@@ -82,28 +128,39 @@ int main() {
 	int matrix3[row1][col2];
 	int *ptr3 = &matrix3[0][0];
 	matrix m3 = {ptr3, row1, col2};
-	int i, j, k;
-	int sum = 0;
 	printf("\nMultiplication Result:\n");
-	for (i = 0; i < row1; i++) {
-        	for (j = 0; j < col2; j++) {
-			printf("Element [%d,%d] = ", i+1, j+1);
-        		for (k = 0; k < row2; k++) {
-				if (k == 0) {
-					printf("%d*%d ", matrix1[i][k], matrix2[k][j]);
-				} 
-				else {
-					printf("+ %d*%d ", matrix1[i][k], matrix2[k][j]);
-				} /* End conditional */
-				sum = sum + matrix1[i][k]*matrix2[k][j];
-			} /* End for loop */
-			printf("= %d\n", sum);
-			matrix3[i][j] = sum;
-			sum = 0;
-		} /* End for loop */
-	} /* End for loop */
-	printf("\nFinal Output:\n");
+	multiply(&m1, &m2, &m3);
+	printf("\nOutput:\n");
+	m3.mptr = &matrix3[0][0];	/* Reset pointer */
 	printMatrix(&m3);
+	m3.mptr = &matrix3[0][0];	/* Reset pointer */
+
+	/* Prompt the user for a new matrix to be multiplied with the result */
+	int row4, col4;
+	printf("\nInsert new matrix dimensions separated by a space: ");
+	scanf("%d %d",&row4, &col4);
+	while (col2 != row4) {
+		fprintf(stderr,"Dimensions Mismatch\n");
+		printf("Please re-enter the dimensions for the new matrix. The number of rows should be %d: ", col2);
+		scanf("%d %d",&row4,&col4);
+	} /* End while loop */
+
+	/* Get the new matrix elements */
+	int matrix4[row4][col4];
+	int *ptr4 = &matrix4[0][0];
+	matrix m4 = {ptr4, row4, col4};
+	printf("Input new matrix elements separated by spaces (there should be %d elements): ", row4*col4);
+	setMatrix(&m4);
+	m4.mptr = &matrix4[0][0];	/* Reset pointer */
+
+	/* Multiply the new matrix with the previous result */
+	int matrix5[row1][col4];
+	int *ptr5 = &matrix5[0][0];
+	matrix m5 = {ptr5, row1, col4};
+	printf("\nMultiplication Result:\n");
+	multiply(&m3, &m4, &m5);
+	printf("\nFinal Output:\n");
+	m5.mptr = &matrix5[0][0];	/* Reset pointer */
+	printMatrix(&m5);
 	return 0;
 } /* End main */
-
