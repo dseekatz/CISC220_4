@@ -13,5 +13,18 @@ print the capitalized file.
 
 (don't create a new file)
 
+going to use mode "r+" to read,write and then override on write
+
+argv[1] is the first argument passed to our program
+
 */
+
+int main(int argc, char *argv[]) {
+FILE *fp;
+char buff[255];
+
+fp = fopen(argv[1], "r+");
+fgets(buff, 255, fp);
+}
+
 
