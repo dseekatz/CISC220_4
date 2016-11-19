@@ -1,6 +1,7 @@
 #include<stdio.h>
-#include<stdin.h>
-
+#include<stdlib.h>
+#include<string.h>
+#include<ctype.h>
 /*this will be Question 3 of assignment 4.
 
 We have to read in a text file,
@@ -20,11 +21,33 @@ argv[1] is the first argument passed to our program
 */
 
 int main(int argc, char *argv[]) {
+
 FILE *fp;
-char buff[255];
+char string[255];
 
 fp = fopen(argv[1], "r+");
-fgets(buff, 255, fp);
+while(1) {
+	fgets(string, 255, fp);
+	int i;
+	int len = strlen(string);
+	string[0] = toupper(string[0]);
+	for (i=1 ; i < len ; i++) {
+		if (isalpha(string[i]) && string[i-1] == ' '){
+			// only first letters of a word
+			string[i] = toupper(string[i]);
+		}
+	}
+	fprintf(fp, "%s\n", string);	
+	if ( feof(fp) ) {
+		break;}
 }
+return 0;
+}
+
+
+
+
+
+
 
 
