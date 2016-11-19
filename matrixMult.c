@@ -69,11 +69,41 @@ int main() {
 	setMatrix(&m2);
 
 	/* Print the matrices */
-	m1.mptr = &matrix1[0][0];
+	m1.mptr = &matrix1[0][0];	/* Reset pointers */
 	m2.mptr = &matrix2[0][0];
 	printf("\nMatrix 1:\n");
 	printMatrix(&m1);
 	printf("\nMatrix 2:\n");
 	printMatrix(&m2);
+	m1.mptr = &matrix1[0][0];	/* Reset pointers */
+	m2.mptr = &matrix2[0][0];
+
+	/* Multiply the matrices */
+	int matrix3[row1][col2];
+	int *ptr3 = &matrix3[0][0];
+	matrix m3 = {ptr3, row1, col2};
+	int i, j, k;
+	int sum = 0;
+	printf("\nMultiplication Result:\n");
+	for (i = 0; i < row1; i++) {
+        	for (j = 0; j < col2; j++) {
+			printf("Element [%d,%d] = ", i+1, j+1);
+        		for (k = 0; k < row2; k++) {
+				if (k == 0) {
+					printf("%d*%d ", matrix1[i][k], matrix2[k][j]);
+				} 
+				else {
+					printf("+ %d*%d ", matrix1[i][k], matrix2[k][j]);
+				} /* End conditional */
+				sum = sum + matrix1[i][k]*matrix2[k][j];
+			} /* End for loop */
+			printf("= %d\n", sum);
+			matrix3[i][j] = sum;
+			sum = 0;
+		} /* End for loop */
+	} /* End for loop */
+	printf("\nFinal Output:\n");
+	printMatrix(&m3);
 	return 0;
 } /* End main */
+
