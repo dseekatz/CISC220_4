@@ -19,15 +19,12 @@ going to use mode "r+" to read,write and then override on write
 argv[1] is the first argument passed to our program
 
 */
-
 int main(int argc, char *argv[]) {
-
 FILE *fp;
 char string[255];
-
 fp = fopen(argv[1], "r+");
-while(1) {
-	fgets(string, 255, fp);
+long pos = ftell(fp);
+while(fgets(string, 255, fp) != NULL) {
 	int i;
 	int len = strlen(string);
 	string[0] = toupper(string[0]);
@@ -37,10 +34,12 @@ while(1) {
 			string[i] = toupper(string[i]);
 		}
 	}
-	fprintf(fp, "%s\n", string);	
-	if ( feof(fp) ) {
-		break;}
+	fseek(fp, pos, SEEK_SET);
+	fprintf(fp, "%s", string);
+	fflush(fp);
+	pos = ftell(fp);
 }
+fclose(fp);
 return 0;
 }
 
