@@ -2,22 +2,15 @@
 #include<stdlib.h>
 #include<string.h>
 #include<ctype.h>
-/*this will be Question 3 of assignment 4.
 
-We have to read in a text file,
+/* This program capitalizes the first letter of every other word, starting from
+the first word of each line.
 
-then capitalize the first letter of every other word,
-starting from the first word of each line
+It takes the filename to capitalize its test as a command-line argument.
 
-then we have to update the file, so that if we cat() the new file, it will 
-print the capitalized file.
+The program updates the file with the capitalized test. 
 
-(don't create a new file)
-
-going to use mode "r+" to read,write and then override on write
-
-argv[1] is the first argument passed to our program
-
+Simon Ungar, November 20th, 2016. v1.1
 */
 int main(int argc, char *argv[]) {
 FILE *fp;
@@ -46,11 +39,4 @@ while(fgets(string, 255, fp) != NULL) {
 fclose(fp);
 return 0;
 }
-
-
-
-
-
-
-
 
