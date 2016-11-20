@@ -10,9 +10,9 @@ char *safestrcat(char *a, char *b) {
 	return x; //return the new string x 
 }
 
-//creating a parameter for the substring??
+//ii) A function that reads a substring and returns 0 on success and -1 on failure
 int substring(char *source, int from, int n, char *target) {
-	int i = 0;
+	int i = 0; 
 	int length = 0;
 	char target[255];
 	printf("Please input a string\n");
@@ -21,7 +21,7 @@ int substring(char *source, int from, int n, char *target) {
 	printf("Please enter the starting index of the substring\n");
 	gets(from); //gets starting index
 
-	if (strstr(source)) = NULL { //If the string is empty return -1
+	if (strstr(source)) == NULL { //If the string is empty return -1
 		return(-1);
 
 	while (i < length) {
