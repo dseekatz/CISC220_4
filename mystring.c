@@ -12,6 +12,7 @@ Sean Eylott 10141657
 //safestrcat returns the concatenated version of the two parameters, a and b, in a new
 // variable called result.
 
+//safestrcat returns a new string containing string a followed by string b
 char* safestrcat(char *a, char *b) {
 	char *result = malloc(strlen(a)+strlen(b)+1);
 	strcat(result,a);
@@ -28,9 +29,11 @@ The substring is specified using from(the starting index) and n(the number of ch
  source. If an error occurs, Error is outputted to the user and -1 is returned.
 */
 
+//substring gets a substring from within a string
 int substring(char *source, int from, int n, char *target) {
 	if (source == NULL || (n+from) > strlen(source)) {
 		fprintf(stderr,"Error!\n");
+<<<<<<< HEAD
 		return -1;
 	} // End if statement
 	source += from;
@@ -38,3 +41,12 @@ int substring(char *source, int from, int n, char *target) {
 	printf("%s\n", target);
 	return 0;
 } // End substring
+=======
+		return -1; //Return -1 upon failure
+	}
+	source += from;
+	memmove(target, source,n);
+	printf("%s\n", target);
+	return 0; //Return 0 upon success
+}
+>>>>>>> 930271edb1c77951f3c48558ace29f850562856e

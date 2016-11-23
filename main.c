@@ -4,7 +4,7 @@
 //Main function to initate the entirety of Question 2 for this assignment
 int main() {
 	char* string1;
-	char target[255] = {0};
+	char target[255] = {0}; //null character to signify end of string
 	string1 = safestrcat("Apple","pie");
 	printf("%s\n", string1);
 	
