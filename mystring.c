@@ -2,6 +2,13 @@
 #include <string.h>
 #include <stdlib.h>
 #include "mystring.h"
+
+/* David Seekatz				16das4 20037710
+ *Sean Eylott				13se18 10141657
+ *Simon Ungar        			14seau 10149546
+ *Brooke Resendes   			13brr2 10141112
+ */
+
 /* This program concatenates two parameters, returning the new string, in the safestrcat function
  and removes a desired substring from a parameter in the substring function.
 
