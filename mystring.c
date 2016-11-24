@@ -33,7 +33,6 @@ The substring is specified using from(the starting index) and n(the number of ch
 int substring(char *source, int from, int n, char *target) {
 	if (source == NULL || (n+from) > strlen(source)) {
 		fprintf(stderr,"Error!\n");
-<<<<<<< HEAD
 		return -1;
 	} // End if statement
 	source += from;
@@ -41,12 +40,3 @@ int substring(char *source, int from, int n, char *target) {
 	printf("%s\n", target);
 	return 0;
 } // End substring
-=======
-		return -1; //Return -1 upon failure
-	}
-	source += from;
-	memmove(target, source,n);
-	printf("%s\n", target);
-	return 0; //Return 0 upon success
-}
->>>>>>> 930271edb1c77951f3c48558ace29f850562856e
