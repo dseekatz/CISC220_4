@@ -3,6 +3,13 @@
 #include<string.h>
 #include<ctype.h>
 
+/* 
+ *David Seekatz				16das4 20037710
+ *Sean Eylott				13se18 10141657
+ *Simon Ungar        			14seau 10149546
+ *Brooke Resendes   			13brr2 10141112
+ */
+
 /* This program capitalizes the first letter of every other word, starting from
 the first word of each line.
 
