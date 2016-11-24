@@ -5,6 +5,10 @@
  * as well as the values for each cell of the matrix.  The program then multiplies the matrices together
  * provided the dimensions and data are valid, and the user is propmpted to enter the information for
  * another matrix to be multiplied.
+ * 
+ * I arbitrarily chose 10 as the maximum dimension for any matrix.
+ * 
+ * The user must enter 0 for a dimension to exit the program.
  */
 
 /* Define a matrix structure to make passing arguments to functions more concise */
@@ -17,18 +21,32 @@ typedef struct {
 /* Sets the dimensions for a single matrix */
 void getDims(int *row, int *col) {
 	scanf("%d %d", row, col);
+	if (*row == 0 || *col == 0) {
+		printf("Exiting...\n");
+		exit(0);
+	}
 } /* End getDims */
 
 /* Checks the dimensions for a matrix and checks if they are valid for matrix multiplication.  If they
  * are not valid, the user is notified and prompted to re-enter the matrix dimensions.
  */
-void checkDims(int *colFirst, int *rowSecond, int *colSecond) {
-	while (*colFirst != *rowSecond) {
+void checkDims(int *row1, int *col1, int *row2, int *col2) {
+	while (*col1 != *row2) {
 		fprintf(stderr,"Dimensions Mismatch\n");
-		printf("Please re-enter the dimensions for the second matrix. The number of rows should be %d: ", *colFirst);
-		scanf("%d %d",rowSecond,colSecond);
+		printf("Please re-enter the dimensions for the second matrix. The number of rows should be %d: ", *col1);
+		scanf("%d %d",row2,col2);
 	} /* End while loop */
-}
+	while (*row1 > 10 || *col1 > 10) {
+		fprintf(stderr,"Dimension too large\n");
+		printf("Please re-enter the dimensions for the first matrix.  Make sure both dimensions are 10 or less: ");
+		scanf("%d %d",row1,col1);
+	} /* End while loop */
+	while (*row2 > 10 || *col2 > 10) {	
+		fprintf(stderr,"Dimension too large\n");
+		printf("Please re-enter the dimensions for the new matrix.  Make sure both dimensions are 10 or less: ");
+		scanf("%d %d",row2,col2);
+	} /* End while loop */
+} /* End checkDims */
 
 /* This function displays a matrix */
 void printMatrix(matrix *m) {
@@ -108,61 +126,52 @@ void multiply(matrix *m1, matrix *m2, matrix *m3) {
 } /* End multiply */
 
 int main() {
-	/* Get the dimensions of the matrices */
+	/* Get and set the first matrix */
+	printf("Enter a dimension of 0 at any time to exit this program\n\n");
 	int row1, col1, row2, col2;
 	printf("Insert matrix 1 dimensions separated by a space: ");
 	getDims(&row1, &col1);
-	printf("Insert matrix 2 dimensions separated by a space: ");
-	getDims(&row2, &col2);
-	checkDims(&col1, &row2, &col2);
-	
-	/* Get the matrix elements and check that they are valid */
-	int matrix1[row1][col1];
-	int matrix2[row2][col2];
+	int matrix1[10][10];	
 	int *ptr1 = &matrix1[0][0];
 	matrix m1 = {ptr1, row1, col1};
 	printf("Input matrix 1 elements separated by spaces (there should be %d elements): ", row1*col1);
-	setMatrix(&m1);
+	setMatrix(&m1);	
+	int matrix2[10][10];
 	int *ptr2 = &matrix2[0][0];
-	matrix m2 = {ptr2, row2, col2};
-	printf("Input matrix 2 elements separated by spaces (there should be %d elements): ", row2*col2);
-	setMatrix(&m2);
-
-	/* Print the matrices */
-	printf("\nMatrix 1:\n");
-	printMatrix(&m1);
-	printf("\nMatrix 2:\n");
-	printMatrix(&m2);
-
-	/* Multiply the matrices */
-	int matrix3[row1][col2];
+	int matrix3[10][10];
 	int *ptr3 = &matrix3[0][0];
-	matrix m3 = {ptr3, row1, col2};
-	printf("\nMultiplication Result:\n");
-	multiply(&m1, &m2, &m3);
-	printf("\nOutput:\n");
-	printMatrix(&m3);
+	matrix m2 = {ptr2, 0, 0};
+	matrix m3 = {ptr3, 0, 0};
 
-	/* Prompt the user for a new matrix to be multiplied with the result */
-	int row4, col4;
-	printf("\nInsert new matrix dimensions separated by a space: ");
-	getDims(&row4, &col4);
-	checkDims(&col2, &row4, &col4);
+	while (1) {
+		/* Get and set the new matrix, and set the dimensions for the result matrix */
+		printf("Insert new matrix dimensions separated by a space: ");
+		getDims(&row2, &col2);
+		checkDims(&(m1.rows), &(m1.cols), &row2, &col2);
+		m2.rows = row2;
+		m2.cols = col2;
+		m3.rows = row1;
+		m3.cols = col2;
+		printf("Input new matrix elements separated by spaces (there should be %d elements): ", row2*col2);
+		setMatrix(&m2);
 
-	/* Get the new matrix elements */
-	int matrix4[row4][col4];
-	int *ptr4 = &matrix4[0][0];
-	matrix m4 = {ptr4, row4, col4};
-	printf("Input new matrix elements separated by spaces (there should be %d elements): ", row4*col4);
-	setMatrix(&m4);
+		/* Print the matrices */
+		printf("\nMatrix 1:\n");
+		printMatrix(&m1);
+		printf("\nMatrix 2:\n");
+		printMatrix(&m2);
 
-	/* Multiply the new matrix with the previous result */
-	int matrix5[row1][col4];
-	int *ptr5 = &matrix5[0][0];
-	matrix m5 = {ptr5, row1, col4};
-	printf("\nMultiplication Result:\n");
-	multiply(&m3, &m4, &m5);
-	printf("\nFinal Output:\n");
-	printMatrix(&m5);
+		/* Multiply the matrices */
+		printf("\nMultiplication Result:\n");
+		multiply(&m1, &m2, &m3);
+		printf("\nOutput:\n");
+		printMatrix(&m3);
+
+		/* Set matrix 1 to be matrix 3 instead */
+		m1.mptr = m3.mptr;
+		m1.rows = m3.rows;
+		m1.cols = m3.cols;
+	} /* End while loop */
+
 	return 0;
 } /* End main */
