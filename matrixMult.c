@@ -1,6 +1,12 @@
 #include<stdio.h>
 #include<stdlib.h>
 
+/* David Seekatz				16das4 20037710
+ *Sean Eylott				13se18 10141657
+ *Simon Ungar        			14seau 10149546
+ *Brooke Resendes   			13brr2 10141112
+ */
+
 /* This program multiplies matrices together.  The user supplies the dimensions for two matrices,
  * as well as the values for each cell of the matrix.  The program then multiplies the matrices together
  * provided the dimensions and data are valid, and the user is propmpted to enter the information for
